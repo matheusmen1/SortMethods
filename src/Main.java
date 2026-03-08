@@ -14,9 +14,9 @@ public class Main
 
         char op;
         do {
-            System.out.println();
-            System.out.println("[A] Rodar Métodos de Ordenação Em Lista Encadeada");
-            System.out.println("[B] Gerar Tabela (Métodos de Ordenação Em Arquivo Binário)");
+            System.out.println("### MENU PRINCIPAL ###");
+            System.out.println("[A] Lista Encadeada");
+            System.out.println("[B] Arquivo Binario");
             System.out.println("[S] Sair");
             op = leitor.nextLine().toUpperCase().charAt(0);
             switch (op)
