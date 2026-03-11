@@ -59,6 +59,13 @@ public class PrincipalListaEncadeada
        L7.shellSort();
        L7.exibir();
        System.out.println("------------------------");
+       System.out.println();
+       System.out.println("--------- Gnome --------");
+       Lista L8 = lista.copiar(lista);
+       L8.exibir();
+       L8.gnomeSort();
+       L8.exibir();
+       System.out.println("------------------------");
     }
 
 

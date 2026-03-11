@@ -371,7 +371,80 @@ public class ArquivoJava {
         }
 
     }
+    public int calcDist(int n, int TL)
+    {
+        int dist = 1;
+        while (dist < TL)
+            dist = n * dist + 1;
+        return dist / n;
+    }
+    public void shellSortArq()
+    {
+        int TL = filesize();
+        int n = 3, i, pos;
+        int dist = calcDist(n, TL);
+        Registro regA = new Registro();
+        Registro regB = new Registro();
+        while (dist > 0)
+        {
+            i = dist;
+            while (i < TL)
+            {
+                seekArq(i);
+                regA.leDoArq(arquivo);
+                pos = i;
+                boolean flag = true;
+                while (pos >= dist && flag)
+                {
+                    flag = false;
+                    seekArq(pos - dist);
+                    regB.leDoArq(arquivo);
+                    if (regA.getNumero() < regB.getNumero())
+                    {
+                        seekArq(pos);
+                        regB.gravaNoArq(arquivo);
+                        pos = pos - dist;
+                        flag = true;
+                    }
+                }
+                seekArq(pos);
+                regA.gravaNoArq(arquivo);
+                i++;
+            }
+            dist = dist / n;
+        }
 
+    }
+    public void gnomeSortArq()
+    {
+        int TL = filesize();
+        int pos = 0;
+        Registro regA = new Registro();
+        Registro regB = new Registro();
+        while (pos < TL)
+        {
+            seekArq(pos);
+            regA.leDoArq(arquivo);
+
+            seekArq(pos - 1);
+            regB.leDoArq(arquivo);
+
+            if (pos != 0 && regA.getNumero() < regB.getNumero())
+            {
+                seekArq(pos);
+                regB.gravaNoArq(arquivo);
+
+                seekArq(pos - 1);
+                regA.gravaNoArq(arquivo);
+
+                pos--;
+            }
+            else
+                pos++;
+
+
+        }
+    }
     public void geraArquivoOrdenado()
     {
 
@@ -388,7 +461,7 @@ public class ArquivoJava {
     public void geraArquivoReverso()
     {
         int j = 0;
-        for(int i = 10; i > 0; i--)
+        for(int i = tamanho; i > 0; i--)
         {
             Registro reg = new Registro(i);
             seekArq(j);

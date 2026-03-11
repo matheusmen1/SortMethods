@@ -9,7 +9,7 @@ public class PrincipalArquivoBinario
         arqRev = new ArquivoJava("arqRev.dat");
         arqRev.geraArquivoReverso();
         arqRev.exibirArq();
-        arqRev.heapSortArq();
+        arqRev.gnomeSortArq();
         arqRev.exibirArq();
     }
 }

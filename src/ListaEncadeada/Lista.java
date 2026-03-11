@@ -317,7 +317,7 @@ public class Lista
         int dist = 1;
         while (dist < TL)
             dist = n * dist + 1;
-        return dist / 3;
+        return dist / n;
     }
     public No deslocarPonteiroParaTras(No atual, int dist)
     {
@@ -333,8 +333,9 @@ public class Lista
     public void shellSort()
     {
         int TL = contaNo(), auxInfo;
+        int n = 3;
         int i, pos;
-        int dist = calcDist(3, TL);
+        int dist = calcDist(n, TL);
         No aux, noPos, noPosDist;
         while (dist > 0)
         {
@@ -362,7 +363,27 @@ public class Lista
                 noPos.setInfo(auxInfo);
                 i++;
             }
-            dist = dist / 3;
+            dist = dist / n;
+        }
+
+    }
+
+    public void gnomeSort()
+    {
+        No pos = inicio;
+        int aux;
+        while (pos != null)
+        {
+            if (pos != inicio && pos.getInfo() < pos.getAnt().getInfo())
+            {
+                aux = pos.getInfo();
+                pos.setInfo(pos.getAnt().getInfo());
+                pos.getAnt().setInfo(aux);
+
+                pos = pos.getAnt();
+            }
+            else
+                pos = pos.getProx();
         }
 
     }
