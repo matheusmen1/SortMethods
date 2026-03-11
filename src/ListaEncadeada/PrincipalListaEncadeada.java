@@ -52,7 +52,13 @@ public class PrincipalListaEncadeada
        L6.heapSort();
        L6.exibir();
        System.out.println("------------------------");
-
+       System.out.println();
+       System.out.println("--------- Shell --------");
+       Lista L7 = lista.copiar(lista);
+       L7.exibir();
+       L7.shellSort();
+       L7.exibir();
+       System.out.println("------------------------");
     }
 
 

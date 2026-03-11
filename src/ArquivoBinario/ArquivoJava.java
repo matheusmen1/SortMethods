@@ -388,7 +388,7 @@ public class ArquivoJava {
     public void geraArquivoReverso()
     {
         int j = 0;
-        for(int i = 100; i > 0; i--)
+        for(int i = 10; i > 0; i--)
         {
             Registro reg = new Registro(i);
             seekArq(j);

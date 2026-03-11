@@ -312,6 +312,60 @@ public class Lista
             TL2--;
         }
     }
+    public int calcDist(int n, int TL)
+    {
+        int dist = 1;
+        while (dist < TL)
+            dist = n * dist + 1;
+        return dist / 3;
+    }
+    public No deslocarPonteiroParaTras(No atual, int dist)
+    {
+        int i = 0;
+        while (atual != null && i < dist)
+        {
+            atual = atual.getAnt();
+            i++;
+        }
+        return atual;
+
+    }
+    public void shellSort()
+    {
+        int TL = contaNo(), auxInfo;
+        int i, pos;
+        int dist = calcDist(3, TL);
+        No aux, noPos, noPosDist;
+        while (dist > 0)
+        {
+            i = dist;
+            while (i < TL)
+            {
+                aux = deslocarPonteiro(i);
+                auxInfo = aux.getInfo();
+                noPos = aux;
+                pos = i;
+                boolean flag = true;
+                while (pos >= dist && flag)
+                {
+                    flag = false;
+                    noPosDist = deslocarPonteiroParaTras(noPos, dist);
+                    if (auxInfo < noPosDist.getInfo())
+                    {
+                        noPos.setInfo(noPosDist.getInfo());
+                        noPos = noPosDist;
+                        pos = pos - dist;
+                        flag = true;
+                    }
+
+                }
+                noPos.setInfo(auxInfo);
+                i++;
+            }
+            dist = dist / 3;
+        }
+
+    }
     public void exibir()
     {
         if (inicio == null)
