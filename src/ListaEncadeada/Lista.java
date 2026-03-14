@@ -82,9 +82,9 @@ public class Lista
         inicializa();
         int num;
         int i = 0;
-        while (i < 10)
+        while (i < 30)
         {
-            num = random.nextInt(10);
+            num = random.nextInt(30);
             inserirNoFinal(num);
             i++;
         }
@@ -457,7 +457,17 @@ public class Lista
         int pos = contarIntervalo(ini, fim);
         return deslocarPonteiroParaFrente(ini, pos /2).getInfo();
     }
-
+    private int achaPos(No no)
+    {
+        int cont = 0;
+        No aux = inicio;
+        while (aux != no)
+        {
+            cont++;
+            aux = aux.getProx();
+        }
+        return cont;
+    }
     public void quickSortComPivo()
     {
         quickSortCP(inicio, fim);
@@ -465,16 +475,23 @@ public class Lista
     private void quickSortCP(No ini, No fim)
     {
         No pi = ini, pj = fim;
+        int i = achaPos(ini), j = achaPos(fim), iniI = i, iniJ = j;
         int pivo = obterPivoMeio(ini, fim), aux;
-        while (pi != pj && pi.getAnt() != pj)
+        while (i < j)
         {
             while (pi.getInfo() < pivo)
+            {
                 pi = pi.getProx();
+                i++;
+            }
 
             while (pj.getInfo() > pivo)
+            {
                 pj = pj.getAnt();
+                j--;
+            }
 
-            if (pi != pj && pi.getAnt() != pj)
+            if (i <= j)
             {
                 aux = pi.getInfo();
                 pi.setInfo(pj.getInfo());
@@ -483,17 +500,21 @@ public class Lista
                 pi = pi.getProx();
                 pj = pj.getAnt();
 
+                i++;
+                j--;
+
             }
 
         }
 
-        if (ini != pj && ini != pj.getProx())
+        if (iniI < j)
             quickSortCP(ini, pj);
 
-        if (pi != fim && pi != fim.getAnt())
+        if (iniJ > i)
             quickSortCP(pi, fim);
 
     }
+
     private int acharMaior(No inicio)
     {
         No aux = inicio;

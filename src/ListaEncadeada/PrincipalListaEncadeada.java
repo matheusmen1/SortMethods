@@ -6,7 +6,7 @@ public class PrincipalListaEncadeada
     public void rodarLista()
     {
        Lista lista = new Lista();
-       lista.preencherLista();
+       lista.preencherListaComRepeticao();
 
        System.out.println();
        System.out.println("### Metodos de Ordenacao ###");
