@@ -66,6 +66,27 @@ public class PrincipalListaEncadeada
        L8.gnomeSort();
        L8.exibir();
        System.out.println("------------------------");
+       System.out.println();
+       System.out.println("---- Quick Sem Pivo ----");
+       Lista L9 = lista.copiar(lista);
+       L9.exibir();
+       L9.quickSortSemPivo();
+       L9.exibir();
+       System.out.println("------------------------");
+       System.out.println();
+       System.out.println("---- Quick Com Pivo ----");
+       Lista L10 = lista.copiar(lista);
+       L10.exibir();
+       L10.quickSortComPivo();
+       L10.exibir();
+       System.out.println("------------------------");
+       System.out.println();
+       System.out.println("------- Counting -------");
+       Lista L11 = lista.copiar(lista);
+       L11.exibir();
+       L11.countingSort();
+       L11.exibir();
+       System.out.println("------------------------");
     }
 
 

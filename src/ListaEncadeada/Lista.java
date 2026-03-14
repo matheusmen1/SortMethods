@@ -16,7 +16,7 @@ public class Lista
         this.inicio = null;
     }
 
-    public void inserirNoInicio(int info)
+    private void inserirNoInicio(int info)
     {
         No no = new No(null, inicio, info);
         if(inicio == null)
@@ -31,7 +31,7 @@ public class Lista
 
         }
     }
-    public void inserirNoFinal(int info)
+    private void inserirNoFinal(int info)
     {
         No no = new No(fim, null, info);
         if (fim == null)
@@ -62,16 +62,29 @@ public class Lista
         int num;
         int i = 0;
         No aux;
-        num = random.nextInt(10) + 1;
+        num = random.nextInt(10);
         while (i < 10)
         {
             aux = busca_exaustiva(num);
             while (aux != null)
             {
-                num = random.nextInt(10) + 1;
+                num = random.nextInt(10);
                 aux = busca_exaustiva(num);
 
             }
+            inserirNoFinal(num);
+            i++;
+        }
+
+    }public void preencherListaComRepeticao()
+    {
+        Random random = new Random();
+        inicializa();
+        int num;
+        int i = 0;
+        while (i < 10)
+        {
+            num = random.nextInt(10);
             inserirNoFinal(num);
             i++;
         }
@@ -134,7 +147,7 @@ public class Lista
         }
         return aux;
     }
-    public int buscaBinaria(int chave, int TL)
+    private int buscaBinaria(int chave, int TL)
     {
         int ini = 0, fim = TL - 1, meio = fim / 2;
         No noMeio;
@@ -312,14 +325,14 @@ public class Lista
             TL2--;
         }
     }
-    public int calcDist(int n, int TL)
+    private int calcDist(int n, int TL)
     {
         int dist = 1;
         while (dist < TL)
             dist = n * dist + 1;
         return dist / n;
     }
-    public No deslocarPonteiroParaTras(No atual, int dist)
+    private No deslocarPonteiroParaTras(No atual, int dist)
     {
         int i = 0;
         while (atual != null && i < dist)
@@ -386,6 +399,138 @@ public class Lista
                 pos = pos.getProx();
         }
 
+    }
+    public void quickSortSemPivo()
+    {
+        quickSortSP(inicio, fim);
+    }
+    private void quickSortSP(No ini, No fim)
+    {
+        No pi = ini, pj = fim;
+        int aux;
+        while (pi != pj)
+        {
+            while (pi != pj && pi.getInfo() <= pj.getInfo())
+                pi = pi.getProx();
+            aux = pi.getInfo();
+            pi.setInfo(pj.getInfo());
+            pj.setInfo(aux);
+
+            while (pj != pi && pj.getInfo() >= pi.getInfo())
+                pj = pj.getAnt();
+
+            aux = pi.getInfo();
+            pi.setInfo(pj.getInfo());
+            pj.setInfo(aux);
+
+            if (ini != pi && ini != pi.getAnt())
+                quickSortSP(ini, pi.getAnt());
+
+            if (fim != pj && fim != pj.getProx())
+                quickSortSP(pj.getProx(), fim);
+        }
+    }
+    private No deslocarPonteiroParaFrente(No ini, int pos)
+    {
+        No aux = ini;
+        int i = 0;
+        while (aux != null && i < pos)
+        {
+            aux = aux.getProx();
+            i++;
+        }
+        return aux;
+    }
+    private int contarIntervalo(No ini, No fim)
+    {
+        No aux = ini;
+        int cont = 0;
+        while (aux != fim)
+        {
+            aux = aux.getProx();
+            cont++;
+        }
+        return cont;
+    }
+    private int obterPivoMeio(No ini, No fim)
+    {
+        int pos = contarIntervalo(ini, fim);
+        return deslocarPonteiroParaFrente(ini, pos /2).getInfo();
+    }
+
+    public void quickSortComPivo()
+    {
+        quickSortCP(inicio, fim);
+    }
+    private void quickSortCP(No ini, No fim)
+    {
+        No pi = ini, pj = fim;
+        int pivo = obterPivoMeio(ini, fim), aux;
+        while (pi != pj && pi.getAnt() != pj)
+        {
+            while (pi.getInfo() < pivo)
+                pi = pi.getProx();
+
+            while (pj.getInfo() > pivo)
+                pj = pj.getAnt();
+
+            if (pi != pj && pi.getAnt() != pj)
+            {
+                aux = pi.getInfo();
+                pi.setInfo(pj.getInfo());
+                pj.setInfo(aux);
+
+                pi = pi.getProx();
+                pj = pj.getAnt();
+
+            }
+
+        }
+
+        if (ini != pj && ini != pj.getProx())
+            quickSortCP(ini, pj);
+
+        if (pi != fim && pi != fim.getAnt())
+            quickSortCP(pi, fim);
+
+    }
+    private int acharMaior(No inicio)
+    {
+        No aux = inicio;
+        int maior = 0;
+        while (aux != null)
+        {
+            if (aux.getInfo() > maior)
+                maior = aux.getInfo();
+            aux = aux.getProx();
+        }
+        return maior;
+    }
+    public void countingSort()
+    {
+        int maior = acharMaior(inicio), auxInfo, i, j;
+        No ini;
+        int[] vet = new int[maior + 1];
+        ini = inicio;
+        while (ini != null)
+        {
+            vet[ini.getInfo()]++;
+            ini = ini.getProx();
+        }
+        ini = inicio;
+        i = 0;
+        while (ini != null)
+        {
+           auxInfo = vet[i];
+           j = 0;
+           while (j < auxInfo)
+           {
+               ini.setInfo(i);
+               ini = ini.getProx();
+               j++;
+           }
+           i++;
+        }
     }
     public void exibir()
     {
