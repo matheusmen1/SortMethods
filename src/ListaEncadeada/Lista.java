@@ -62,13 +62,13 @@ public class Lista
         int num;
         int i = 0;
         No aux;
-        num = random.nextInt(10);
-        while (i < 10)
+        num = random.nextInt(16);
+        while (i < 16) // multiplo de 2
         {
             aux = busca_exaustiva(num);
             while (aux != null)
             {
-                num = random.nextInt(10);
+                num = random.nextInt(16);
                 aux = busca_exaustiva(num);
 
             }
@@ -76,15 +76,16 @@ public class Lista
             i++;
         }
 
-    }public void preencherListaComRepeticao()
+    }
+    public void preencherListaComRepeticao()
     {
         Random random = new Random();
         inicializa();
         int num;
         int i = 0;
-        while (i < 30)
+        while (i < 16) // multiplo de 2
         {
-            num = random.nextInt(30);
+            num = random.nextInt(16);
             inserirNoFinal(num);
             i++;
         }
@@ -423,12 +424,12 @@ public class Lista
             pi.setInfo(pj.getInfo());
             pj.setInfo(aux);
 
-            if (ini != pi && ini != pi.getAnt())
-                quickSortSP(ini, pi.getAnt());
-
-            if (fim != pj && fim != pj.getProx())
-                quickSortSP(pj.getProx(), fim);
         }
+        if (ini != pi && ini != pi.getAnt())
+            quickSortSP(ini, pi.getAnt());
+
+        if (fim != pj && fim != pj.getProx())
+            quickSortSP(pj.getProx(), fim);
     }
     private No deslocarPonteiroParaFrente(No ini, int pos)
     {
@@ -472,11 +473,11 @@ public class Lista
     {
         quickSortCP(inicio, fim);
     }
-    private void quickSortCP(No ini, No fim)
+    private void quickSortCP(No noIni, No noFim)
     {
-        No pi = ini, pj = fim;
-        int i = achaPos(ini), j = achaPos(fim), iniI = i, iniJ = j;
-        int pivo = obterPivoMeio(ini, fim), aux;
+        No pi = noIni, pj = noFim;
+        int i = achaPos(noIni), j = achaPos(noFim), ini = i, fim = j;
+        int pivo = obterPivoMeio(noIni, noFim), aux;
         while (i < j)
         {
             while (pi.getInfo() < pivo)
@@ -507,11 +508,11 @@ public class Lista
 
         }
 
-        if (iniI < j)
-            quickSortCP(ini, pj);
+        if (ini < j)
+            quickSortCP(noIni, pj);
 
-        if (iniJ > i)
-            quickSortCP(pi, fim);
+        if (fim > i)
+            quickSortCP(pi, noFim);
 
     }
 
@@ -552,6 +553,58 @@ public class Lista
            }
            i++;
         }
+    }
+    public void mergeSortPrimeiraImplementacao()
+    {
+        int seq = 1, TL = contaNo(), metade = TL / 2, i, j, aux, auxSeq;
+        int[] vet1 = new int[metade];
+        int[] vet2 = new int[metade];
+        No ini, meio, pk;
+        while (seq < TL)
+        {
+            i = 0;
+            ini = inicio;
+            meio = deslocarPonteiroParaFrente(ini, metade);
+            while (i < metade)
+            {
+                vet1[i] = ini.getInfo();
+                vet2[i] = meio.getInfo();
+                ini = ini.getProx();
+                meio = meio.getProx();
+                i++;
+            }
+            i = 0;
+            j = 0;
+            auxSeq = seq;
+            pk = inicio;
+            while (pk != null)
+            {
+                while (i < auxSeq && j < auxSeq)
+                {
+                    if (vet1[i] < vet2[j])
+                        aux = vet1[i++];
+                    else
+                        aux = vet2[j++];
+
+
+                    pk.setInfo(aux);
+                    pk = pk.getProx();
+                }
+                while (i < auxSeq)
+                {
+                    pk.setInfo(vet1[i++]);
+                    pk = pk.getProx();
+                }
+                while (j < auxSeq)
+                {
+                    pk.setInfo(vet2[j++]);
+                    pk = pk.getProx();
+                }
+                auxSeq = auxSeq + seq;
+            }
+            seq = seq * 2;
+        }
+
     }
     public void exibir()
     {

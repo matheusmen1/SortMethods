@@ -87,6 +87,13 @@ public class PrincipalListaEncadeada
        L11.countingSort();
        L11.exibir();
        System.out.println("------------------------");
+       System.out.println();
+       System.out.println("------- Merge 1° -------");
+       Lista L12 = lista.copiar(lista);
+       L12.exibir();
+       L12.mergeSortPrimeiraImplementacao();
+       L12.exibir();
+       System.out.println("------------------------");
     }
 
 

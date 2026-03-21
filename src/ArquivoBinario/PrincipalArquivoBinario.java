@@ -6,10 +6,18 @@ public class PrincipalArquivoBinario
 
     public void gerarTabela()
     {
+        System.out.println("Arquivo Reverso");
         arqRev = new ArquivoJava("arqRev.dat");
         arqRev.geraArquivoReverso();
         arqRev.exibirArq();
-        arqRev.gnomeSortArq();
+        arqRev.countingSortArq();
         arqRev.exibirArq();
+        System.out.println();
+        System.out.println("Arquivo Randomico");
+        arqRand = new ArquivoJava("arqRand.dat");
+        arqRand.geraArquivoRandomico();
+        arqRand.exibirArq();
+        arqRand.countingSortArq();
+        arqRand.exibirArq();
     }
 }

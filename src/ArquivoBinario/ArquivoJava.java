@@ -8,7 +8,7 @@ public class ArquivoJava {
     private String nomearquivo;
     private RandomAccessFile arquivo;
     private int comp, mov;
-    private final int tamanho = 10;
+    private final int tamanho = 1024;
 
     public ArquivoJava(String nomearquivo)
     {
@@ -127,7 +127,7 @@ public class ArquivoJava {
         }
 
     }
-    public int buscarBinariaArq(int chave, int TL)
+    private int buscarBinariaArq(int chave, int TL)
     {
         int ini = 0, fim = TL - 1, meio = (ini + fim)/2;
         Registro regMeio = new Registro();
@@ -371,7 +371,7 @@ public class ArquivoJava {
         }
 
     }
-    public int calcDist(int n, int TL)
+    private int calcDist(int n, int TL)
     {
         int dist = 1;
         while (dist < TL)
@@ -445,6 +445,158 @@ public class ArquivoJava {
 
         }
     }
+    public void quickSortSemPivoArq()
+    {
+        quickSortSPArq(0,filesize() - 1);
+    }
+
+    private void quickSortSPArq(int ini, int fim)
+    {
+        int i = ini, j = fim;
+        Registro regA = new Registro();
+        Registro regB = new Registro();
+        boolean flag = true;
+        while (i < j)
+        {
+            seekArq(j);
+            regB.leDoArq(arquivo);
+            seekArq(i);
+            regA.leDoArq(arquivo);
+
+            if (flag)
+            {
+
+                while (i < j && regA.getNumero() <= regB.getNumero())
+                {
+                    i++;
+                    seekArq(i);
+                    regA.leDoArq(arquivo);
+
+                }
+            }
+            else
+            {
+                while (i < j && regB.getNumero() >= regA.getNumero())
+                {
+                    j--;
+                    seekArq(j);
+                    regB.leDoArq(arquivo);
+
+                }
+            }
+
+            if (i < j)
+            {
+                seekArq(j);
+                regA.gravaNoArq(arquivo);
+                seekArq(i);
+                regB.gravaNoArq(arquivo);
+                flag = !flag;
+            }
+        }
+
+        if (ini < i - 1)
+            quickSortSPArq(ini, i - 1);
+        if (fim > j + 1)
+            quickSortSPArq(j + 1, fim);
+    }
+    public void quickSortComPivoArq()
+    {
+        quickSortCPArq(0, filesize() - 1);
+    }
+    private void quickSortCPArq(int ini, int fim)
+    {
+        int i = ini, j = fim, meio = (ini + fim) / 2, pivo;
+        Registro regA = new Registro();
+        Registro regB = new Registro();
+        seekArq(meio);
+        regA.leDoArq(arquivo);
+        pivo = regA.getNumero();
+        while (i < j)
+        {
+            seekArq(i);
+            regA.leDoArq(arquivo);
+            seekArq(j);
+            regB.leDoArq(arquivo);
+
+            while (regA.getNumero() < pivo)
+            {
+                i++;
+                seekArq(i);
+                regA.leDoArq(arquivo);
+            }
+
+
+            while (regB.getNumero() > pivo)
+            {
+                j--;
+                seekArq(j);
+                regB.leDoArq(arquivo);
+            }
+
+
+            if (i <= j)
+            {
+                seekArq(j);
+                regA.gravaNoArq(arquivo);
+                seekArq(i);
+                regB.gravaNoArq(arquivo);
+                i++;
+                j--;
+            }
+        }
+        if (ini < j)
+            quickSortCPArq(ini, j);
+        if (fim > i)
+            quickSortCPArq(i, fim);
+    }
+    private int acharMaior(int fim)
+    {
+        Registro reg = new Registro();
+        int i = 0, maior = 0;
+        while (i < fim)
+        {
+            seekArq(i);
+            reg.leDoArq(arquivo);
+            if (reg.getNumero() > maior)
+                maior = reg.getNumero();
+            i++;
+        }
+        return maior;
+
+    }
+    public void countingSortArq()
+    {
+        int TL = filesize(), aux, pos;
+        int maior = acharMaior(TL);
+        int[] vet = new int[maior + 1];
+        Registro reg = new Registro();
+        int i = 0;
+        while (i < TL)
+        {
+            seekArq(i);
+            reg.leDoArq(arquivo);
+            vet[reg.getNumero()]++;
+            i++;
+        }
+        i = 0;
+        pos = 0;
+        while (i < maior + 1)
+        {
+            aux = vet[i];
+            int j = 0;
+            while (j < aux)
+            {
+                reg.setNumero(i);
+                seekArq(pos);
+                reg.gravaNoArq(arquivo);
+                pos++;
+                j++;
+            }
+            i++;
+        }
+    }
+
     public void geraArquivoOrdenado()
     {
 
