@@ -94,6 +94,13 @@ public class PrincipalListaEncadeada
        L12.mergeSortPrimeiraImplementacao();
        L12.exibir();
        System.out.println("------------------------");
+       System.out.println();
+       System.out.println("-------- Bucket --------");
+       Lista L13 = lista.copiar(lista);
+       L13.exibir();
+       L13.bucketSort();
+       L13.exibir();
+       System.out.println("------------------------");
     }
 
 

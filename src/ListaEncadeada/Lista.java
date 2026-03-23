@@ -606,6 +606,44 @@ public class Lista
         }
 
     }
+    public void bucketSort()
+    {
+        int TL = contaNo(), maior = acharMaior(inicio), normalizado, indice;
+        Lista[] baldes = new Lista[TL];
+        for(int i = 0; i < TL; i++)
+            baldes[i] = new Lista();
+
+        No aux = inicio;
+        while (aux != null)
+        {
+            normalizado = aux.getInfo() / (maior + 1);
+            indice = TL * normalizado;
+            baldes[indice].inserirNoFinal(aux.getInfo());
+            aux = aux.getProx();
+        }
+        int i = 0;
+        while (i < TL)
+        {
+            if (baldes[i].inicio != null)
+                baldes[i].insercaoDireta();
+            i++;
+        }
+        i = 0;
+        aux = inicio;
+        while (i < TL)
+        {
+            No noBalde;
+            noBalde = baldes[i].inicio;
+            while (noBalde != null)
+            {
+                aux.setInfo(noBalde.getInfo());
+                aux = aux.getProx();
+                noBalde = noBalde.getProx();
+            }
+            i++;
+        }
+
+    }
     public void exibir()
     {
         if (inicio == null)
