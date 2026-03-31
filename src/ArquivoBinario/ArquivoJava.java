@@ -1,4 +1,7 @@
 package ArquivoBinario;
+import ListaEncadeada.NoPilha;
+import ListaEncadeada.Pilha;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
@@ -8,7 +11,7 @@ public class ArquivoJava {
     private String nomearquivo;
     private RandomAccessFile arquivo;
     private int comp, mov;
-    private final int tamanho = 1024;
+    private final int tamanho = 16;
 
     public ArquivoJava(String nomearquivo)
     {
@@ -594,6 +597,91 @@ public class ArquivoJava {
                 j++;
             }
             i++;
+        }
+    }
+    public void mergeSegundaImplementacaoArq()
+    {
+        int TL = filesize();
+        Pilha P1 = new Pilha();
+        Pilha P2 = new Pilha();
+        P1.inicializar();
+        P2.inicializar();
+        P1.push(0,TL - 1);
+        NoPilha noPilha;
+        int esq, dir, meio;
+        while (!P1.isEmpty())
+        {
+            noPilha = P1.pop();
+            esq = noPilha.getEsq();
+            dir = noPilha.getDir();
+            if (esq < dir)
+            {
+                meio = (esq + dir) / 2;
+                P1.push(esq, meio);
+                P1.push(meio + 1, dir);
+                P2.push(esq, dir);
+
+            }
+
+        }
+        while (!P2.isEmpty())
+        {
+            noPilha = P2.pop();
+            esq = noPilha.getEsq();
+            dir = noPilha.getDir();
+            meio = (esq + dir) / 2;
+            fusaoSegundaImplementacaoArq(esq, meio, meio + 1, dir, TL);
+
+        }
+
+    }
+
+    private void fusaoSegundaImplementacaoArq(int ini1, int fim1, int ini2, int fim2, int TL)
+    {
+        int i = ini1, j = ini2, k = 0;
+        Registro regA = new Registro();
+        Registro regB = new Registro();
+        Registro reg = new Registro();
+        int[] vet = new int[TL];
+        while (i <= fim1 && j <= fim2)
+        {
+            seekArq(i);
+            regA.leDoArq(arquivo);
+
+            seekArq(j);
+            regB.leDoArq(arquivo);
+
+            if (regA.getNumero() < regB.getNumero())
+            {
+                vet[k++] = regA.getNumero();
+                i++;
+            }
+            else
+            {
+                vet[k++] = regB.getNumero();
+                j++;
+            }
+        }
+        while (i <= fim1)
+        {
+            seekArq(i);
+            regA.leDoArq(arquivo);
+            vet[k++] = regA.getNumero();
+            i++;
+        }
+        while (j <= fim2)
+        {
+            seekArq(j);
+            regB.leDoArq(arquivo);
+            vet[k++] = regB.getNumero();
+            j++;
+        }
+
+        for (i = 0; i < k; i++)
+        {
+            reg.setNumero(vet[i]);
+            seekArq(ini1+i);
+            reg.gravaNoArq(arquivo);
         }
     }
 

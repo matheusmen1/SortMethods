@@ -101,6 +101,20 @@ public class PrincipalListaEncadeada
        L13.bucketSort();
        L13.exibir();
        System.out.println("------------------------");
+       System.out.println();
+       System.out.println("-------- Radix ---------");
+       Lista L14 = lista.copiar(lista);
+       L14.exibir();
+       L14.radixSort();
+       L14.exibir();
+       System.out.println("------------------------");
+       System.out.println();
+       System.out.println("------- Merge 2° -------");
+       Lista L15 = lista.copiar(lista);
+       L15.exibir();
+       L15.mergeSortSegundaImplementacao();
+       L15.exibir();
+       System.out.println("------------------------");
     }
 
 

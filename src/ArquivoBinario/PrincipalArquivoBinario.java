@@ -10,14 +10,14 @@ public class PrincipalArquivoBinario
         arqRev = new ArquivoJava("arqRev.dat");
         arqRev.geraArquivoReverso();
         arqRev.exibirArq();
-        arqRev.countingSortArq();
+        arqRev.mergeSegundaImplementacaoArq();
         arqRev.exibirArq();
         System.out.println();
         System.out.println("Arquivo Randomico");
         arqRand = new ArquivoJava("arqRand.dat");
         arqRand.geraArquivoRandomico();
         arqRand.exibirArq();
-        arqRand.countingSortArq();
+        arqRand.mergeSegundaImplementacaoArq();
         arqRand.exibirArq();
     }
 }

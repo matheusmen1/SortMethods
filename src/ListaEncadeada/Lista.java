@@ -45,6 +45,7 @@ public class Lista
             fim = no;
         }
     }
+
     private No busca_exaustiva(int info)
     {
         No aux;
@@ -644,6 +645,116 @@ public class Lista
         }
 
     }
+    public void radixSort()
+    {
+        Lista[] baldes = new Lista[10];
+        int maior = acharMaior(inicio);
+        int exp = 1, indice, info;
+        No aux, no;
+        for (int i = 0; i < baldes.length; i++)
+            baldes[i] = new Lista();
+        while (maior / exp > 0)
+        {
+            aux = inicio;
+            while (aux != null)
+            {
+                indice = (aux.getInfo() / exp ) % 10;
+                baldes[indice].inserirNoFinal(aux.getInfo());
+                aux = aux.getProx();
+            }
+            int i = 0;
+            aux = inicio;
+            while (i < 10)
+            {
+                no = baldes[i].inicio;
+                while (no != null)
+                {
+                    info = no.getInfo();
+                    aux.setInfo(info);
+                    aux = aux.getProx();
+                    no = no.getProx();
+                }
+                baldes[i].inicio = baldes[i].fim = null;
+                i++;
+            }
+            exp = exp * 10;
+        }
+    }
+    public void mergeSortSegundaImplementacao()
+    {
+        Pilha pilha = new Pilha();
+        pilha.inicializar();
+        Pilha pilha2 = new Pilha();
+        pilha2.inicializar();
+        int TL = contaNo(),esq, dir, meio;
+        pilha.push(0, TL - 1);
+        NoPilha noPilha;
+        while (!pilha.isEmpty())
+        {
+            noPilha = pilha.pop();
+            esq = noPilha.getEsq();
+            dir = noPilha.getDir();
+            if (esq < dir)
+            {
+                meio = (esq + dir) / 2;
+                pilha.push(esq, meio);
+                pilha.push(meio + 1, dir);
+                pilha2.push(esq, dir);
+
+            }
+        }
+        while (!pilha2.isEmpty())
+        {
+            noPilha = pilha2.pop();
+            esq = noPilha.getEsq();
+            dir = noPilha.getDir();
+            meio = (esq + dir) / 2;
+            fusaoSegundaImplementacao(esq, meio, meio + 1, dir, TL);
+        }
+    }
+
+    private void fusaoSegundaImplementacao(int ini1, int fim1, int ini2, int fim2, int TL)
+    {
+        int i = ini1, j = ini2, k = 0;
+        int[] vet = new int[TL];
+        No pi = deslocarPonteiroParaFrente(inicio, ini1);
+        No pj = deslocarPonteiroParaFrente(inicio, ini2);
+        No pk = deslocarPonteiroParaFrente(inicio, ini1);
+        while (i <= fim1 && j <= fim2)
+        {
+            if (pi.getInfo() < pj.getInfo())
+            {
+                vet[k++] = pi.getInfo();
+                pi = pi.getProx();
+                i++;
+            }
+            else
+            {
+                vet[k++] = pj.getInfo();
+                pj = pj.getProx();
+                j++;
+            }
+
+        }
+        while (i <= fim1)
+        {
+            vet[k++] = pi.getInfo();
+            pi = pi.getProx();
+            i++;
+        }
+        while (j <= fim2)
+        {
+            vet[k++] = pj.getInfo();
+            pj = pj.getProx();
+            j++;
+        }
+        for (i = 0; i < k; i++)
+        {
+            pk.setInfo(vet[i]);
+            pk = pk.getProx();
+        }
+    }
+
     public void exibir()
     {
         if (inicio == null)
