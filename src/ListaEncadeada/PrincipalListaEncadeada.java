@@ -115,6 +115,19 @@ public class PrincipalListaEncadeada
        L15.mergeSortSegundaImplementacao();
        L15.exibir();
        System.out.println("------------------------");
+       System.out.println();
+       System.out.println("--------- Comb ---------");
+       Lista L16 = lista.copiar(lista);
+       L16.exibir();
+       L16.combSort();
+       L16.exibir();
+       System.out.println("------------------------");
+       System.out.println("--------- Tim ----------");
+       Lista L17 = lista.copiar(lista);
+       L17.exibir();
+       L17.timSort();
+       L17.exibir();
+       System.out.println("------------------------");
     }
 
 

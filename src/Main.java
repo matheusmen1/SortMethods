@@ -1,12 +1,12 @@
 import ArquivoBinario.PrincipalArquivoBinario;
 import ListaEncadeada.PrincipalListaEncadeada;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main
 {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws IOException {
         Scanner leitor = new Scanner(System.in);
 
         PrincipalListaEncadeada mainListaEncadeada = new PrincipalListaEncadeada();
@@ -14,7 +14,7 @@ public class Main
 
         char op;
         do {
-            System.out.println("### MENU PRINCIPAL ###");
+            System.out.println("\n### MENU PRINCIPAL ###");
             System.out.println("[A] Lista Encadeada");
             System.out.println("[B] Arquivo Binario");
             System.out.println("[S] Sair");

@@ -1,5 +1,4 @@
 package ListaEncadeada;
-
 import java.util.Random;
 
 public class Lista
@@ -754,7 +753,149 @@ public class Lista
             pk = pk.getProx();
         }
     }
+    public void combSort()
+    {
+        int TL = contaNo();
+        int gap = TL;
+        int info;
+        No aux, pGap;
+        boolean flag = true;
+        while (gap != 1 || flag)
+        {
+            gap = (int) (gap / 1.3);
+            if (gap < 1)
+                gap = 1;
 
+            flag = false;
+            aux = inicio;
+            pGap = deslocarPonteiro(gap);
+            while (pGap != null)
+            {
+                if (aux.getInfo() > pGap.getInfo())
+                {
+                    info = aux.getInfo();
+                    aux.setInfo(pGap.getInfo());
+                    pGap.setInfo(info);
+                    flag = true;
+                }
+
+                aux = aux.getProx();
+                pGap = pGap.getProx();
+            }
+
+        }
+
+    }
+    private int calcMinRun(int n, int minRun)
+    {
+        int r = 0;
+        while (n >= minRun)
+        {
+            r = r + (n % 2);
+            n = n/2;
+        }
+        return n + r;
+    }
+    private void insercaoDiretaTim(No ini, No fim)
+    {
+        No aux = ini.getProx();
+        No pPos;
+        int info;
+        while (aux != fim.getProx())
+        {
+            info = aux.getInfo();
+            pPos = aux;
+            while (pPos != ini && pPos.getAnt().getInfo() > info)
+            {
+                pPos.setInfo(pPos.getAnt().getInfo());
+                pPos = pPos.getAnt();
+            }
+            pPos.setInfo(info);
+            aux = aux.getProx();
+        }
+
+    }
+    private void mergeTim(int esq, int meio, int dir)
+    {
+        int TL1 = meio - esq + 1;
+        int TL2 = dir - meio;
+        int[] vet1 = new int[TL1];
+        int[] vet2 = new int[TL2];
+        No aux = deslocarPonteiroParaFrente(inicio, esq);
+        for (int i = 0; i < TL1; i++)
+        {
+            vet1[i] = aux.getInfo();
+            aux = aux.getProx();
+        }
+        aux = deslocarPonteiroParaFrente(inicio, meio + 1);
+        for (int i = 0; i < TL2; i++)
+        {
+            vet2[i] = aux.getInfo();
+            aux = aux.getProx();
+        }
+        aux = deslocarPonteiroParaFrente(inicio, esq);
+        int i = 0, j = 0;
+        while (i < TL1 && j < TL2)
+        {
+            if (vet1[i] < vet2[j])
+                aux.setInfo(vet1[i++]);
+            else
+                aux.setInfo(vet2[j++]);
+
+            aux = aux.getProx();
+        }
+        while (i < TL1)
+        {
+            aux.setInfo(vet1[i++]);
+            aux = aux.getProx();
+        }
+        while (j < TL2)
+        {
+            aux.setInfo(vet2[j++]);
+            aux = aux.getProx();
+        }
+    }
+    public void timSort()
+    {
+        int TL = contaNo();
+        int minRun = calcMinRun(TL, 32);
+        int i = 0;
+        int fim;
+        while (i < TL)
+        {
+            if (i + minRun - 1 < TL - 1)
+            {
+                fim = i + minRun - 1;
+            }
+            else
+            {
+                fim = TL - 1;
+            }
+
+            insercaoDiretaTim(deslocarPonteiroParaFrente(inicio, i), deslocarPonteiroParaFrente(inicio, fim));
+            i = i + minRun;
+        }
+        int tamanho = minRun, dir, meio;
+        while (tamanho < TL)
+        {
+            for (int esq = 0; esq < TL; esq += 2*tamanho)
+            {
+                if (esq + tamanho - 1 < TL - 1)
+                    meio = esq + tamanho - 1;
+                else
+                    meio = TL - 1;
+
+                if (esq + 2 * tamanho - 1 < TL - 1)
+                    dir = esq + 2 * tamanho - 1;
+                else
+                    dir = TL - 1;
+                if (meio < dir)
+                    mergeTim(esq, meio, dir);
+            }
+            tamanho = tamanho * 2;
+
+        }
+    }
     public void exibir()
     {
         if (inicio == null)
