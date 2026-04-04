@@ -10,7 +10,7 @@ public class PrincipalArquivoBinario
     ArquivoJava arqRand = new ArquivoJava("arqRand.dat");
     ArquivoJava auxRev = new ArquivoJava("tempRev.dat");
     ArquivoJava auxRand = new ArquivoJava("tempRand.dat");
-    Tabela tabela = new Tabela("Resultados");
+    Tabela tabela = new Tabela("Resultados.txt");
     long tini, tfim, ttotalO;
     double tseg;
     int compOrd, compEqOrd, movOrd, movEqOrd;

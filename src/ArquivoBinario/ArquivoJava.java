@@ -474,7 +474,6 @@ public class ArquivoJava {
             else
                 pos++;
 
-
         }
     }
     public void quickSortSemPivoArq()
@@ -599,6 +598,7 @@ public class ArquivoJava {
         {
             seekArq(i);
             reg.leDoArq(arquivo);
+            comp++;
             if (reg.getNumero() > maior)
             {
                 maior = reg.getNumero();
